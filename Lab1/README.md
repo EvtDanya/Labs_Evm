@@ -18,4 +18,4 @@
 •	SWAP всего –  
 •	SWAP доступно – Сетевые интерфейсы:  
 •	Количество сетевых интерфейсов –  
-![alt text](https://github.com/EvtDanya/Labs_Evm/blob/main/image.jpg?raw=true)
+![alt text](https://github.com/EvtDanya/Labs_Evm/blob/main/Lab1/image.jpg)
