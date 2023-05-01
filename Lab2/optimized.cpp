@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Создаем пустую матрицу для результата
-    std::vector<std::vector<double>> result(a.size(), std::vector<double>(a[0].size(), 0.0));
+    std::vector<std::vector<double>> result(a.size(), std::vector<double>(a.size(), 0.0));
 
     std::chrono::time_point<std::chrono::system_clock> start;
     std::chrono::time_point<std::chrono::system_clock> end;
