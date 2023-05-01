@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     bool output = false;
     bool timer = false;
     int type_of_func = 0;
-    int block_size = 0;
+    int block_size = 2;// размер блока задаем на случай, если не задаст пользователь
 
     for (auto i = 2; i < argc; i++) {
         if (std::string(argv[i]) == "-o") 
