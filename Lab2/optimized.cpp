@@ -60,23 +60,17 @@ void dgemm_opt2(const std::vector<std::vector<double>>& a, const std::vector<std
             }
         }
     }
-}
-
-void dgemm_opt3(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, const int size) {
-    int i, j, k, ii, jj, kk;     
-
-
+    
 }
 
 int main(int argc, char *argv[]) {
     if (argc < 2 || argc > 5) {
-        std::cout << "Usage: " << argv[0] << " <matrix size> [-o] [-t] [--opt1] [--opt2=<block_size>] [--opt3]" << std::endl;
+        std::cout << "Usage: " << argv[0] << " <matrix size> [-o] [-t] [--opt1] [--opt2=<block_size>]" << std::endl;
         std::cout << "Help: \n"
         << "-o        print all matrix on screen\n"
         << "-t        timer\n"
         << "--opt1    optimization by line-by-line iteration of elements\n"
-        << "--opt2    optimization due to block iteration of matrix elements, you can specify block size\n"
-        << "--opt3    optimization due to code vectorization\n";
+        << "--opt2    optimization due to block iteration of matrix elements, you can specify block size\n";
         return 0;
     }
 
@@ -98,9 +92,7 @@ int main(int argc, char *argv[]) {
                 std::string num = std::string(argv[i]).substr(7); 
                 if(std::stoi(num) && std::stoi(num) > 0)
                     block_size = std::stoi(num);
-            }
-            else if (std::string(argv[i]) == "--opt3") 
-                type_of_func = 3;         
+            }       
         }
     }
     srand(time(NULL));
@@ -147,12 +139,6 @@ int main(int argc, char *argv[]) {
     case 2: {  
         start = std::chrono::system_clock::now();
         dgemm_opt2(a, b, result, n, block_size);
-        end = std::chrono::system_clock::now();
-        break;
-    }
-    case 3: {
-        start = std::chrono::system_clock::now();   
-        dgemm_opt3(a, b, result, n);
         end = std::chrono::system_clock::now();
         break;
     }
