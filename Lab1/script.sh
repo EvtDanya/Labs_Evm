@@ -56,11 +56,11 @@ printf "+----+--------------+---------------------------+-------------------+---
 printf "| %2s | %15s | %30s | %22s | %9s  |\n" "N" "Имя" "MAC адрес" "IP адрес" "Скорость"
 printf "+----+--------------+---------------------------+-------------------+-----------+\n"
 
-for (( i=0; i<${#interfaces[@]}; i++ )); do
+for (( i=0; i<${#interfaces[@]}; i++ )) do
     name=${interfaces[$i]}
     mac=$(ifconfig $name | grep -oP 'ether \K[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}')
     ip=$(ifconfig $name | grep -oP 'inet \K[\d\.]+')
-    if [[ "$name" == "lo" ]]; then
+    if [[ "$name" == "lo" ]] then
         speed=""
     else
         speed=$(speedtest-cli --simple | grep Download | awk '{print $2}')
