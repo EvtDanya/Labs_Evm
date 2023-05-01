@@ -12,9 +12,11 @@ if [ "$1" == "all" ]; then
     
     echo "[*] deleting old results..."
     filenames=("Opt0" "Opt1" "Opt2")
-    for file in ${filenames[@]}; do
-        if [ -f output${filename}.csv ]; then
-            rm output${filename}.csv
+    for file in ${filenames[@]}; 
+    do
+        if [ -f output${file}.csv ]; then
+            echo "da"
+            rm output${file}.csv
         fi
     done
     echo "[*] deleted"
@@ -48,7 +50,7 @@ elif [ "$1" == "blocks" ]; then
     echo "[*] deleting old results..."
     for block_size in ${block_sizes[@]};
     do
-        if [ -f "outputBlock${block_size}.csv" ]; then
+        if [ -f outputBlock${block_size}.csv ]; then
             rm outputBlock${block_size}.csv
         fi
     done
