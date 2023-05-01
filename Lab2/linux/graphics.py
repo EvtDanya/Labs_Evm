@@ -21,7 +21,7 @@ if __name__ == "__main__":
             for num in nums:
                 descriptions.update({f"outputBlock{num}.csv": f"block_size = {num}"})
             
-    for filename in descriptions.keys():
+    for filename, description in descriptions.items():
         x_values = []
         y_values = []
 
@@ -35,6 +35,7 @@ if __name__ == "__main__":
                     print('Error in file reading: empty params')
             f.close()
 
-        plt.plot(x_values, y_values, label=descriptions[filename])    
-        
+        plt.plot(x_values, y_values, label=description)      
+    
+    plt.legend()    
     plt.show()
