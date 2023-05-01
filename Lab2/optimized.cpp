@@ -65,10 +65,11 @@ void dgemm_opt2(const std::vector<std::vector<double>>& a, const std::vector<std
 
 int main(int argc, char *argv[]) {
     if (argc < 2 || argc > 5) {
-        std::cout << "Usage: " << argv[0] << " <matrix size> [-o] [-t] [--opt1] [--opt2=<block_size>]" << std::endl;
+        std::cout << "Usage: " << argv[0] << " <matrix size> [-o] [-t] [--opt0] [--opt1] [--opt2=<block_size>]" << std::endl;
         std::cout << "Help: \n"
         << "-o        print all matrix on screen\n"
         << "-t        timer\n"
+        << "--opt1    default func dgemm blass\n"
         << "--opt1    optimization by line-by-line iteration of elements\n"
         << "--opt2    optimization due to block iteration of matrix elements, you can specify block size\n";
         return 0;

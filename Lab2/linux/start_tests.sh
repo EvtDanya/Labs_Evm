@@ -1,14 +1,14 @@
 #!/bin/bash
 
 sizes=(100 200 300 400 500)
-modes=("" "--opt1" "--opt2=32")
+modes=("--opt0" "--opt1" "--opt2=32")
 block_sizes=(2 4 8 16 32 64 128)
-filename = ""
+filename=""
 
 echo "[*] starting tests..."
 
 if [ "$1" == "all" ]; then
-    echo "  [*] you chose all tests"
+    echo "[*] you chose all tests"
     
     echo "[*] deleting old results..."
     filenames=("Opt0" "Opt1" "Opt2")
@@ -21,13 +21,13 @@ if [ "$1" == "all" ]; then
 
     for mode in ${modes[@]};
     do
-        if [ "${mode}" == "" ]; then
+        if [ "${mode}" == "--opt0" ]; then
             echo "[*] starting tests with default dgemm function..."
             filename="Opt0"
         elif [ "${mode}" == "--opt1" ]; then
             echo "[*] starting tests with transpose dgemm function..."
             filename="Opt1"
-        elif [ "${mode}" == "--opt2=" ]; then
+        elif [[ "${mode}" == --opt2=* ]]; then
             echo "[*] starting tests with dgemm function with blocks..."
             filename="Opt2"
         fi
@@ -43,11 +43,12 @@ if [ "$1" == "all" ]; then
     done
 
 elif [ "$1" == "blocks" ]; then
-    echo "  [*] you chose tests with blocks"
+    echo "[*] you chose tests with blocks"
 
     echo "[*] deleting old results..."
     for block_size in ${block_sizes[@]};
-        if [ -f outputBlock${block_size}.csv ]; then
+    do
+        if [ -f "outputBlock${block_size}.csv" ]; then
             rm outputBlock${block_size}.csv
         fi
     done
@@ -71,4 +72,4 @@ fi
 
 echo "[*] finished!"
 echo "[*] starting python module with graphics drawing..."
-python3 graphics.py.
+python3 graphics.py "$1"

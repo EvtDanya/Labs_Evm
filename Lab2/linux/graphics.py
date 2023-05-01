@@ -21,7 +21,7 @@ if __name__ == "__main__":
             for num in nums:
                 descriptions.update({f"outputBlock{num}.csv": f"block_size = {num}"})
             
-    for filename in descriptions.keys:
+    for filename in descriptions.keys():
         x_values = []
         y_values = []
 
