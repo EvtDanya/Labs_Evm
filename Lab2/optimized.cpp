@@ -24,7 +24,6 @@ void dgemm(const std::vector<std::vector<double>>& a, const std::vector<std::vec
             }
         }
     }
-
 }
 
 void dgemm_opt1(std::vector<std::vector<double>>& a, std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, const int size) {
@@ -38,7 +37,6 @@ void dgemm_opt1(std::vector<std::vector<double>>& a, std::vector<std::vector<dou
             }
         }
     }
-
 }
 
 void dgemm_opt2(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, const int size, const int block_size) {

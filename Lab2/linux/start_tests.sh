@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sizes=(100 200 300 400 500)
+sizes=(100 200 300 400 500 600 700 800 900 1000)
 modes=("--opt0" "--opt1" "--opt2=32")
 block_sizes=(2 4 8 16 32 64 128)
 filename=""
@@ -8,7 +8,7 @@ filename=""
 echo "[*] starting tests..."
 
 if [ "$1" == "all" ]; then
-    echo "[*] you chose all tests"
+    echo "[*] you have chosen all tests"
     
     echo "[*] deleting old results..."
     filenames=("Opt0" "Opt1" "Opt2")
@@ -45,7 +45,7 @@ if [ "$1" == "all" ]; then
     done
 
 elif [ "$1" == "blocks" ]; then
-    echo "[*] you chose tests with blocks"
+    echo "[*] you have chosen tests with blocks"
 
     echo "[*] deleting old results..."
     for block_size in ${block_sizes[@]};
@@ -58,13 +58,15 @@ elif [ "$1" == "blocks" ]; then
 
     for block_size in ${block_sizes[@]};
     do 
+        echo "[*] starting tests with block_size=${block_size}..." 
         for size in ${sizes[@]};
         do  
             program_output=$(./optimized ${size} --opt2=${block_size} -t)         
             time_val=$(echo "${program_output}" | cut -d' ' -f1)
 
             echo "${size} ${time_val}" >> outputBlock${block_size}.csv
-        done        
+        done 
+        echo "[*] done, writing results to outputBlock${block_size}.csv"       
     done
 else
     echo "Incorrect argument! Use 'all' or 'blocks' instead"
@@ -73,5 +75,5 @@ fi
 
 
 echo "[*] finished!"
-echo "[*] starting python module with graphics drawing..."
+echo "[*] launching the python module with drawing graphs..."
 python3 graphics.py "$1"
