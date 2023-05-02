@@ -15,7 +15,8 @@ if __name__ == "__main__":
         
     else:
         if sys.argv[1] == "all":
-            descriptions = {"outputOpt0.csv": "dgemm_blas", "outputOpt1.csv": "dgemm_opt1", "outputOpt2.csv": "dgemm_opt2"}
+            descriptions = {"outputOpt0.csv": "dgemm_blas", "outputOpt1.csv": "dgemm_opt1", 
+                            "outputOpt2.csv": "dgemm_opt2", "outputOpt3.csv": "dgemm with vectorization"}
         else:
             nums = [2,4,8,16,32,64,128]
             for num in nums:

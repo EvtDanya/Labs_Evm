@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Help: \n"
         << "-o        print all matrix on screen\n"
         << "-t        timer\n"
-        << "--opt1    default func dgemm blass\n"
+        << "--opt0    default func dgemm blass\n"
         << "--opt1    optimization by line-by-line iteration of elements\n"
         << "--opt2    optimization due to block iteration of matrix elements, you can specify block size\n";
         return 0;

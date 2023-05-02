@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sizes=(100 200 300 400 500 600 700 800 900 1000)
-modes=("--opt0" "--opt1" "--opt2=32")
+modes=("--opt0" "--opt1" "--opt2=16" "vect")
 block_sizes=(2 4 8 16 32 64 128)
 filename=""
 
@@ -29,14 +29,20 @@ if [ "$1" == "all" ]; then
         elif [ "${mode}" == "--opt1" ]; then
             echo "[*] starting tests with transpose dgemm function..."
             filename="Opt1"
-        elif [[ "${mode}" == --opt2=* ]]; then
+        elif [ "${mode}" == --opt2=* ]; then
             echo "[*] starting tests with dgemm function with blocks..."
             filename="Opt2"
+        elif [ "${mode}" == "vect" ]; then
+            echo "[*] starting tests with dgemm function with vectorization..."
+            filename="Opt3"
         fi
         
         for size in ${sizes[@]};
         do  
-            program_output=$(./optimized ${size} ${mode} -t)         
+            program_output=$(./optimized ${size} ${mode} -t)   
+            if [ "${mode}" == "vect" ]; then
+                program_output=$(./optimized3 ${size} --opt1 -t)   
+            fi      
             time_val=$(echo "${program_output}" | cut -d' ' -f1)
 
             echo "${size} ${time_val}" >> output${filename}.csv
