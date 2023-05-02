@@ -39,26 +39,26 @@ void dgemm_opt1(std::vector<std::vector<double>>& a, std::vector<std::vector<dou
     }
 }
 
-void dgemm_opt2(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, const int size, const int block_size) {
-    int i, j, k, ii, jj, kk;
+void dgemm_opt2(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, 
+const int size, const int block_size) {
+    int i, j, k, i1, j1, k1;
     // Выполняем умножение матриц
     for (i = 0; i < size; i += block_size) {
         for (j = 0; j < size; j += block_size) {
             for (k = 0; k < size; k += block_size) {
                 // Перебираем блоки элементов матриц
-                for (ii = i; ii < std::min(i + block_size, size); ii++) {
-                    for (jj = j; jj < std::min(j + block_size, size); jj++) {
-                        double sum = 0;
-                        for (kk = k; kk < std::min(k + block_size, size); kk++) {
-                            sum += a[ii][kk] * b[kk][jj];
+                for (i1 = i; i1 < std::min(size, i + block_size); ++i1) {
+                    for (j1 = j; j1 < std::min(size, j + block_size); ++j1) {
+                        double sum = 0.0;
+                        for (k1 = k; k1 < std::min(size, k + block_size); ++k1) {
+                            sum += a[i1][k1] * b[k1][j1];
                         }
-                        result[ii][jj] += sum;
+                        result[i1][j1] += sum;
                     }
                 }
             }
         }
     }
-    
 }
 
 int main(int argc, char *argv[]) {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
     bool output = false;
     bool timer = false;
-    int type_of_func = 0;
+    int type_of_func = -1;
     int block_size = 2;// размер блока задаем на случай, если не задаст пользователь
 
     for (auto i = 2; i < argc; i++) {
@@ -83,8 +83,10 @@ int main(int argc, char *argv[]) {
             output = true;
         else if (std::string(argv[i]) == "-t") 
             timer = true;
-        else if (type_of_func == 0) {
-            if (std::string(argv[i]) == "--opt1") 
+        else if (type_of_func == -1) {
+            if (std::string(argv[i]) == "--opt0")  
+                type_of_func = 0;
+            else if (std::string(argv[i]) == "--opt1") 
                 type_of_func = 1;
             else if (std::string(argv[i]).find("--opt2=") == 0) {
                 type_of_func = 2;
@@ -94,6 +96,7 @@ int main(int argc, char *argv[]) {
             }       
         }
     }
+
     srand(time(NULL));
 
     int n = atoi(argv[1]);
@@ -142,7 +145,8 @@ int main(int argc, char *argv[]) {
         break;
     }
     default:
-        break;
+        std::cout << "You didn\'t choose type of functions";
+        exit(0);
     }
 
     //если задан флаг с подсчетом времени работы кода, то вычисляем его и выводим на экран
