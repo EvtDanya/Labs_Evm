@@ -5,41 +5,41 @@
 #include <string>
 #include <chrono>
 
-void print_matrix(const std::vector<std::vector<double>>& matrix, int size) {
+void print_matrix(const std::vector<double>& matrix, int size) {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            std::cout << std::setw(10) << matrix[i][j] << " ";
+            std::cout << std::setw(10) << matrix[i * size + j] << " ";
         }
         std::cout << std::endl;
     }
 }
 
-void dgemm(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, const int size) {
+void dgemm(const std::vector<double>& a, const std::vector<double>& b, std::vector<double> &result, const int size) {
     int i, j, k;
     // Выполняем умножение матриц
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
             for (k = 0; k < size; k++) {
-                result[i][j] += a[i][k] * b[k][j];
+                result[i * size + j] += a[i * size + k] * b[k * size + j];
             }
         }
     }
 }
 
-void dgemm_opt1(std::vector<std::vector<double>>& a, std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, const int size) {
+void dgemm_opt1(std::vector<double>& a, std::vector<double>& b, std::vector<double> &result, const int size) {
     int i, j, k;
     // Выполняем умножение матриц
     for (i = 0; i < size; i++) {
         for (k = 0; k < size; k++) {
-            double aik = a[i][k];
+            double aik = a[i * size + k];
             for (j = 0; j < size; j++) {
-                result[i][j] += aik * b[k][j];
+                result[i * size + j] += aik * b[k * size + j];
             }
         }
     }
 }
 
-void dgemm_opt2(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b, std::vector<std::vector<double>> &result, 
+void dgemm_opt2(const std::vector<double>& a, const std::vector<double>& b, std::vector<double> &result, 
 const int size, const int block_size) {
     int i, j, k, i1, j1, k1;
     // Выполняем умножение матриц
@@ -51,9 +51,9 @@ const int size, const int block_size) {
                     for (j1 = j; j1 < std::min(size, j + block_size); ++j1) {
                         double sum = 0.0;
                         for (k1 = k; k1 < std::min(size, k + block_size); ++k1) {
-                            sum += a[i1][k1] * b[k1][j1];
+                            sum += a[i1 * size + k1] * b[k1 * size + j1];
                         }
-                        result[i1][j1] += sum;
+                        result[i1 * size + j1] += sum;
                     }
                 }
             }
@@ -101,8 +101,8 @@ int main(int argc, char *argv[]) {
 
     int n = atoi(argv[1]);
 
-    std::vector<std::vector<double>> a(n, std::vector<double>(n));
-    std::vector<std::vector<double>> b(n, std::vector<double>(n));
+    std::vector<double> a(n*n);
+    std::vector<double> b(n*n);
     
     // генератор случайных чисел и распределение для этих чисел
     std::mt19937 gen(42);
@@ -110,16 +110,14 @@ int main(int argc, char *argv[]) {
 
     // заполнение случайными числами
     for (int i = 0; i < n; i++) {
-        double* rowA = a[i].data();
-        double* rowB = b[i].data();
         for (int j = 0; j < n; j++) {
-            rowA[j] = dist(gen);
-            rowB[j] = dist(gen);
+            a[i * n + j] = dist(gen);
+            b[i * n + j] = dist(gen);
         }
     }
 
     // Создаем пустую матрицу для результата
-    std::vector<std::vector<double>> result(a.size(), std::vector<double>(a.size(), 0.0));
+    std::vector<double> result(n*n, 0.0);
 
     std::chrono::time_point<std::chrono::system_clock> start;
     std::chrono::time_point<std::chrono::system_clock> end;
