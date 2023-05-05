@@ -39,18 +39,14 @@ void dgemm_opt1(std::vector<double>& a, std::vector<double>& b, std::vector<doub
     }
 }
 
-void dgemm_opt2(const std::vector<double>& a, const std::vector<double>& b, std::vector<double> &result, 
-const int size, const int block_size) {
-    int i, j, k, i1, j1, k1;
-    // Выполняем умножение матриц
-    for (i = 0; i < size; i += block_size) {
-        for (j = 0; j < size; j += block_size) {
-            for (k = 0; k < size; k += block_size) {
-                // Перебираем блоки элементов матриц
-                for (i1 = i; i1 < std::min(size, i + block_size); ++i1) {
-                    for (j1 = j; j1 < std::min(size, j + block_size); ++j1) {
+void dgemm_opt2(const std::vector<double>& a, const std::vector<double>& b, std::vector<double>& result, const int size, const int block_size) {
+    for (int i = 0; i < size; i += block_size) {
+        for (int j = 0; j < size; j += block_size) {
+            for (int k = 0; k < size; k += block_size) {
+                for (int i1 = i; i1 < i + block_size && i1 < size; ++i1) {
+                    for (int j1 = j; j1 < j + block_size && j1 < size; ++j1) {
                         double sum = 0.0;
-                        for (k1 = k; k1 < std::min(size, k + block_size); ++k1) {
+                        for (int k1 = k; k1 < k + block_size && k1 < size; ++k1) {
                             sum += a[i1 * size + k1] * b[k1 * size + j1];
                         }
                         result[i1 * size + j1] += sum;

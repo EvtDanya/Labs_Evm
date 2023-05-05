@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sizes=(100 200 300 400 500 600 700 800 900 1000)
-modes=("--opt0" "--opt1" "--opt2=16" "vect")
+modes=("--opt0" "--opt1" "--opt2=32" "vect")
 block_sizes=(2 4 8 16 32 64 128)
 filename=""
 
